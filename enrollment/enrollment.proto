@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package enrollment;
+
+service EnrollmentService {
+  rpc ListOpenOfferings (ListOpenOfferingsRequest) returns (ListOpenOfferingsResponse);
+
+  rpc Enroll (EnrollRequest) returns (EnrollResponse);
+}
+
+message ListOpenOfferingsRequest {}
+
+message CourseOffering {
+  int32 id = 1;
+  string courseCode = 2;
+  int32 units = 3;
+  string section = 4;
+  string schoolYear = 5;
+  string term = 6;
+  int32 capacity = 7;
+  string facultyEmail = 8;
+  int32 enrolledCount = 9;
+  bool isEnrolled = 10;
+  bool isFull = 11;
+}
+
+message ListOpenOfferingsResponse {
+  repeated CourseOffering offerings = 1;
+}
+
+message EnrollRequest {
+  int32 offeringId = 1;
+}
+
+message EnrollResponse {
+  string message = 1;
+}

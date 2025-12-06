@@ -1,0 +1,48 @@
+<% let html = ''; %>
+
+<% if (error) { %>
+    <% html += `<p style="color:red;">${error}</p>`; %>
+<% } else if (!data) { %>
+    <% html += '<p>No data.</p>'; %>
+<% } else { %>
+    <% const o = data.offerings; %>
+    <% html += `<h2>Offering: ${o.courseCode} - Section ${o.section} (${o.schoolYear} T${o.term})</h2>`; %>
+    <% html += '<table border="1" cellspacing="0" cellpadding="4">'; %>
+    <% html += '<tr><th>Student Email</th><th>Current Grade</th><th>Update Grade</th></tr>'; %>
+    <% data.enrollments.forEach(e => { %>
+        <% html += `
+        <tr>
+            <td>${e.studentEmail}</td>
+            <td>${e.grade || 'Not yet graded'}</td>
+            <td>
+                <form method="POST" action="/faculty/grades-${o.courseCode}-${o.section}">
+                    <input type="hidden" name="enrollmentId" value="${e.enrollmentId}" />
+                    <input type="hidden" name="offeringId" value="${o.id}" />
+                    <!-- <input type="text" name="grade" value="${e.grade || ''}" size="4" /> -->
+                    <select name="grade">
+                        <option value="">--Select--</option>
+                        <option value="1.0">1.0</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2.0">2.0</option>
+                        <option value="2.5">2.5</option>
+                        <option value="3.0">3.0</option>
+                        <option value="3.5">3.5</option>
+                        <option value="4.0">4.0</option>
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </td>
+        </tr>
+        `; %>
+    <% }); %>
+    <% html += '</table>'; %>
+<% } %>
+
+<% const content = `
+    <section>
+        <h1>Enrollments for Offering</h1>
+        ${html}
+    </section>
+`; %>
+
+<%- include('layout', { body: content }) %>

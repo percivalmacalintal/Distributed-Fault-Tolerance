@@ -1,0 +1,57 @@
+<%
+let html = '';
+
+if (error) {
+    html += `<p style="color:red;">${error}</p>`;
+} else {
+    html += '<table border="1" cellspacing="0" cellpadding="4">';
+    html += '<tr><th>School Year</th><th>Term</th><th>Course Code</th><th>Units</th><th>Section</th><th>Faculty</th><th>Enrolled / Capacity</th>';
+    if (mode === 'enroll') {
+        html += '<th>Action</th>'
+    }
+    offerings.forEach(o => {
+        const enrolledInfo = `${o.enrolledCount || 0}/${o.capacity || 0}`;
+        const isFull = (o.enrolledCount || 0) >= (o.capacity || 0);
+        html += `
+            <tr>
+                <td>${o.schoolYear}</td>
+                <td>${o.term}</td>
+                <td>${o.courseCode}</td>
+                <td>${o.units}</td>
+                <td>${o.section}</td>
+                <td>${o.facultyEmail || ''}</td>
+                <td>${enrolledInfo}</td>
+        `;
+        if (mode === 'enroll') {
+            if (o.isEnrolled) {
+                html += `
+                    <td>Already enrolled</td>
+                `;
+                } else if (isFull) {
+                    html += `
+                    <td>Full</td>
+                `;
+            } else {
+                html += `
+                    <td>
+                        <form method="POST" action="/student/enroll">
+                            <input type="hidden" name="offeringId" value="${o.id}" />
+                            <button type="submit">Enroll</button>
+                        </form>
+                    </td>
+                `;
+            }
+        }
+    });
+    html += '</tr>';
+    html += '</table>';
+}
+const title = mode === 'enroll' ? 'Enroll in Courses' : 'View Courses';
+const content = `
+    <section>
+        <h1>${title}</h1>
+        ${html}
+    </section>`;
+%>
+
+<%- include ('layout', { body: content }) %>

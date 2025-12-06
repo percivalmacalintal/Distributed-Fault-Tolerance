@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package view_offering;
+
+service ViewOfferingsService {
+    rpc ListOfferings(ListOfferingsRequest) returns (ListOfferingsResponse);
+}
+
+message ListOfferingsRequest {
+    bool openOnly = 1;
+}
+
+message CourseOffering {
+    int32 id = 1;
+    string courseCode = 2;
+    int32 units = 3;
+    string section = 4;
+    string schoolYear = 5;
+    int32 term = 6;
+    int32 capacity = 7;
+    string facultyEmail = 8;
+    int32 enrolledCount = 9;
+}
+
+message ListOfferingsResponse {
+    repeated CourseOffering offerings = 1;
+}

@@ -1,0 +1,36 @@
+<%
+let html = '';
+
+if (error) {
+    html += `<p style="color:red;">${error}</p>`;
+} else {
+    if (enrollments.length === 0) {
+        html += `<p>You are not enrolled in any courses. ${enrollments} hihihi</p>`;
+    } else {
+        html += '<table border="1" cellspacing="0" cellpadding="4">';
+        html += '<tr><th>School Year</th><th>Term</th><th>Course Code</th><th>Units</th><th>Section</th><th>Grade</th></tr>';
+        enrollments.forEach(e => {
+            html += `
+                <tr>
+                    <td>${e.schoolYear}</td>
+                    <td>${e.term}</td>
+                    <td>${e.courseCode}</td>
+                    <td>${e.units}</td>
+                    <td>${e.section}</td>
+                    <td>${e.grade || ''}</td>
+                </tr>
+            `;
+        });
+        html += '</table>';
+    }
+}
+
+const content = `
+    <section>
+        <h1>My Courses</h1>
+        ${html}
+    </section>
+`;
+%>
+
+<%- include('layout', { body: content }) %>

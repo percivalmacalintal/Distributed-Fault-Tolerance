@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package faculty_grades;
+
+service FacultyGradesService {
+  rpc ListMyOfferings (ListMyOfferingsRequest) returns (ListMyOfferingsResponse);
+
+  rpc ListStudents (ListStudentsRequest) returns (ListStudentsResponse);
+
+  rpc SetGrade (SetGradeRequest) returns (SetGradeResponse);
+}
+
+message ListMyOfferingsRequest {}
+
+message FacultyOffering {
+  int32 offeringId = 1;
+  string courseCode = 2;
+  int32 units = 3;
+  string section = 4;
+  string schoolYear = 5;
+  string term = 6;
+}
+
+message ListMyOfferingsResponse {
+  repeated FacultyOffering offerings = 1;
+}
+
+message ListStudentsRequest {
+  int32 offeringId = 1;
+}
+
+message OfferingHeader {
+  int32 id = 1;
+  string courseCode = 2;
+  string section = 3;
+  string schoolYear = 4;
+  string term = 5;
+}
+
+message EnrollmentRow {
+  int32 enrollmentId = 1;
+  string studentEmail = 2;
+  float grade = 3;
+}
+
+message ListStudentsResponse {
+  OfferingHeader offerings = 1;
+  repeated EnrollmentRow enrollments = 2;
+}
+
+message SetGradeRequest {
+  int32 enrollmentId = 1;
+  float grade = 2;
+}
+
+message SetGradeResponse {
+  string message = 1;
+}

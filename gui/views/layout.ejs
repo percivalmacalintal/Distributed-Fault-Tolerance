@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enrollment System</title>
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7fff7; 
+            color: #034d03;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #239552; 
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header nav span {
+            font-weight: bold;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        header nav a:hover {
+            opacity: 0.8;
+        }
+
+        main {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        table th, table td {
+            border: 1px solid #c1e1c1;
+            padding: 10px 15px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f0fff0;
+        }
+
+        table tr:hover {
+            background-color: #c6fdc6;
+        }
+
+        h1 {
+            color: #034d03;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 5px 0;
+            color: white;
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #27ae60;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #c1e1c1;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <% if (currentUser) { %>
+            <div>Welcome, <%= currentUser.email %></div>
+            <nav>
+                <a href="/courses/view">View Courses</a>
+                <% if (currentUser.role === 'student') { %>
+                    <a href="/student/enroll">Enroll Courses</a>
+                    <a href="/student/grades">My Courses</a>
+                <% } else if (currentUser.role === 'faculty') { %>
+                    <a href="/faculty/courses">My Courses</a>
+                <% } %>
+                <a href="/logout">Logout</a>
+            </nav>
+        <% } %>
+    </header>
+    <main>
+        <%- body %>
+    </main>
+</body>
+</html>

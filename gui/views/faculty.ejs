@@ -1,0 +1,36 @@
+<%
+let html = '';
+
+if (error) {
+    html += `<p style="color:red;">${error}</p>`;
+} else {
+    if (!offerings || offerings.length === 0) {
+        html += '<p>You are not assigned to any course offerings.</p>';
+    } else {
+        html += '<table border="1" cellspacing="0" cellpadding="4">';
+        html += '<tr><th>Course Code</th><th>Units</th><th>Section</th><th>School Year</th><th>Term</th><th>View Students</th></tr>';
+        offerings.forEach(o => {
+            html += `
+                <tr>
+                    <td>${o.courseCode}</td>
+                    <td>${o.units}</td>
+                    <td>${o.section}</td>
+                    <td>${o.schoolYear}</td>
+                    <td>${o.term}</td>
+                    <td><a href="/faculty/courses/${o.courseCode}-${o.section}-${o.offeringId}">View</a></td>
+                </tr>
+            `;
+        });
+        html += '</table>';
+    }
+}
+
+const content = `
+<section>
+<h1>My Courses</h1>
+${html}
+</section>
+`;
+%>
+
+<%- include('layout', { body: content }) %>

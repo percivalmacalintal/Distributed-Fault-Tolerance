@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package student_grades;
+
+service StudentGradesService {
+  rpc ListMyEnrollments (ListMyEnrollmentsRequest) returns (ListMyEnrollmentsResponse);
+}
+
+message ListMyEnrollmentsRequest {}
+
+message EnrollmentRow {
+  int32 id = 1;
+  string courseCode = 2;
+  int32 units = 3;
+  string section = 4;
+  string schoolYear = 5;
+  string term = 6;
+  float grade = 7;
+}
+
+message ListMyEnrollmentsResponse {
+  repeated EnrollmentRow enrollments = 1;
+}

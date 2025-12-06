@@ -1,0 +1,96 @@
+services:
+  gui:
+    build: ./gui
+    networks:
+      my_ipvlan_network:
+        ipv4_address: 192.168.99.51
+    environment:
+      - PORT=3000
+      - JWT_SECRET=67
+      - AUTH_ADDR=192.168.99.52:50051
+      - VIEWOFFERING_ADDR=192.168.99.53:50051
+      - ENROLLMENT_ADDR=192.168.99.54:50051
+      - STUDENTGRADES_ADDR=192.168.99.55:50051
+      - FACULTYGRADES_ADDR=192.168.99.56:50051
+      - REGISTER_ADDR=192.168.99.57:50051
+  auth:
+    build: ./auth
+    networks:
+      my_ipvlan_network:
+        ipv4_address: 192.168.99.52
+    environment:
+      - PORT=50051
+      - JWT_SECRET=67
+      - DB_HOST=192.168.99.1
+      - DB_USER=enrollment_app
+      - DB_PASSWORD=password
+      - DB_NAME=enrollment_system
+  view_offering:
+    build: ./view_offering
+    networks:
+      my_ipvlan_network:
+        ipv4_address: 192.168.99.53
+    environment:
+      - PORT=50051
+      - JWT_SECRET=67
+      - DB_HOST=192.168.99.1
+      - DB_USER=enrollment_app
+      - DB_PASSWORD=password
+      - DB_NAME=enrollment_system
+  enrollment:
+    build: ./enrollment
+    networks:
+      my_ipvlan_network:
+        ipv4_address: 192.168.99.54
+    environment:
+      - PORT=50051
+      - JWT_SECRET=67
+      - DB_HOST=192.168.99.1
+      - DB_USER=enrollment_app
+      - DB_PASSWORD=password
+      - DB_NAME=enrollment_system
+  view_grades:
+    build: ./view_grades
+    networks:
+      my_ipvlan_network:
+        ipv4_address: 192.168.99.55
+    environment:
+      - PORT=50051
+      - JWT_SECRET=67
+      - DB_HOST=192.168.99.1
+      - DB_USER=enrollment_app
+      - DB_PASSWORD=password
+      - DB_NAME=enrollment_system
+  upload_grades:
+    build: ./upload_grades
+    networks:
+      my_ipvlan_network:
+        ipv4_address: 192.168.99.56
+    environment:
+      - PORT=50051
+      - JWT_SECRET=67
+      - DB_HOST=192.168.99.1
+      - DB_USER=enrollment_app
+      - DB_PASSWORD=password
+      - DB_NAME=enrollment_system
+  register:
+    build: ./register
+    networks:
+      my_ipvlan_network:
+        ipv4_address: 192.168.99.57
+    environment:
+      - PORT=50051
+      - JWT_SECRET=67
+      - DB_HOST=192.168.99.1
+      - DB_USER=enrollment_app
+      - DB_PASSWORD=password
+      - DB_NAME=enrollment_system
+networks:
+  my_ipvlan_network:
+    driver: ipvlan
+    driver_opts:
+      parent: enp0s3 
+    ipam:
+      config:
+        - subnet: 192.168.99.0/24 
+          gateway: 192.168.99.105
